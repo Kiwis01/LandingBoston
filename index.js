@@ -101,3 +101,40 @@ sections.forEach((sec) => {
 
 
 })
+
+
+// Analytics Firebase
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD7RBxT1iZ5pEYCWESZTsKg9mgOjKmssxw",
+  authDomain: "healthy-4cb00.firebaseapp.com",
+  projectId: "healthy-4cb00",
+  storageBucket: "healthy-4cb00.firebasestorage.app",
+  messagingSenderId: "282572829726",
+  appId: "1:282572829726:web:c2268326f69736248d6a0f",
+  measurementId: "G-1XB7CMNVNW"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Button click handler
+const sub = document.getElementById("submit-btn");
+sub.addEventListener("click", async (event) => {
+    event.preventDefault(); // Prevent default behavior
+
+  const newEmail = {
+    email: document.getElementById("email").value
+  };
+
+  try {
+    // Reference the 'Emails' subcollection within the 'Healthy' collection
+    const docRef = await addDoc(collection(db, "Healthy", "SomeDocumentID", "Emails"), newEmail); 
+    console.log("Document written successfully with ID: ", docRef.id);
+    alert("You have been added to our newsletter :)");
+  } catch (error) {
+    console.error("Error writing document: ", error);
+    alert("Error: " + error.message);
+  }
+});
